@@ -12,6 +12,23 @@ describe("Parser correct cases", () => {
   it("1 + 32 - 2 + 2", () => {
     expect(parser("1 + 32 - 2 + 2")).toEqual([1, "+", 32, "-", 2, "+", 2]);
   });
+
+  it("3 **", () => {
+    expect(parser("3 **")).toEqual([3, "**"]);
+  })
+
+  it("3 ** + 2", () => {
+    expect(parser("3 ** + 2")).toEqual([3, "**", "+", 2]);
+  })
+
+  it("3 ** * ( 2 + 2 )", () => {
+    expect(parser("3 ** * ( 2 + 2 )")).toEqual([3, "**", "*", "(", 2, "+", 2, ")"]);
+  })
+
+  it("( 3 + 6 ) + 2 * 3", () => {
+    expect(parser("( 3 + 6 ) + 2 * 3")).toEqual(["(", 3, "+", 6,")", "+", 2, "*", 3]);
+  })
+
 });
 
 describe("Parser invalid cases", () => {
@@ -24,4 +41,12 @@ describe("Parser invalid cases", () => {
   it("1 ! 33 - 2", () => {
     expect(() => parser("1 ! 33 - 2")).toThrow(TypeError("Unexpected string"));
   });
+
+  it("3 ** * 3 ( 2 + 2 )", () => {
+    expect(() => parser("3 ** * 3 ( 2 + 2 )")).toThrow(TypeError("Unexpected string"));
+  })
+
+  it("3 ** * 3 ( 2 + ) 2", () => {
+    expect(() => parser("3 ** * 3 ( 2 + ) 2")).toThrow(TypeError("Unexpected string"));
+  })
 });

@@ -12,6 +12,22 @@ describe("firstPrioritiesCalc simple cases", function () {
         expect((0, engine_1.firstPrioritiesCalc)([32, "+", 32])).toEqual([32, "+", 32]);
     });
 });
+describe("firstPrioritiesCalc with single Math action", function () {
+    it("[3 **]", function () {
+        expect((0, engine_1.firstPrioritiesCalc)([3, "**"])).toEqual([9]);
+    });
+});
+describe("priorities in brackets", function () {
+    it("( 3 + 2 )", function () {
+        expect((0, engine_1.firstPrioritiesCalc)(["(", 3, "+", 2, ")"])).toEqual([5]);
+    });
+    it("( 3 + 6 ) + 2 * 3", function () {
+        expect((0, engine_1.firstPrioritiesCalc)(["(", 3, "+", 6, ")", "+", 2, "*", 3])).toEqual([9, "+", 6]);
+    });
+    it("( 3 + 6 ) / ( 2 * 3 )", function () {
+        expect((0, engine_1.firstPrioritiesCalc)(["(", 3, "+", 6, ")", "/", "(", 1, "*", 3, ")"])).toEqual([3]);
+    });
+});
 describe("firstPrioritiesCalc mixed with second priorities cases", function () {
     it("[32, /, 32, +, 10, *, 10]", function () {
         expect((0, engine_1.firstPrioritiesCalc)([32, "/", 32, "+", 10, "*", 10])).toEqual([
